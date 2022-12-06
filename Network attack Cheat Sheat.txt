@@ -1,6 +1,4 @@
---> Cheat sheet <--
-
-** Common password attacks you can do against a server. You can find more online
+COMMON PASSWORD ATTACKS YOU USE AGAINST A SERVER
 
 
 The syntax for Hydra is
@@ -37,6 +35,10 @@ Password attack SMTP
 
 Password attack SMB(Samba)
 	hydra -L usernames.txt -P passwords.txt $ip smb -V -f
+
+
+
+
 
 
 
