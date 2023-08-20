@@ -39,6 +39,35 @@ Password attack SMB(Samba)
 
 
 
+-> Post Web Form
+
+We can use Hydra to brute force web forms too. You must know which type of request it is making; GET or POST methods are commonly used. You can use 
+your browser’s network tab (in developer tools) to see the request types or view the source code.
+
+	> sudo hydra <username> <wordlist> MACHINE_IP http-post-form "<path>:<login_credentials>:<invalid_response>"
+		- http-post-form 	: the type of the form is POST
+		- <path>	 	: the login page URL, for example, login.php
+		- <login_credentials>	: the username and password used to log in, for example, username=^USER^&password=^PASS^
+		- <invalid_response>	: part of the response when the login fails
+		- -v			: verbose output for every attempt
+
+	> hydra -l <username> -P <wordlist> MACHINE_IP http-post-form "/:username=^USER^&password=^PASS^:F=incorrect" -V
+		Here,
+		- The specified username(s) in <username> will replace ^USER^
+		- The provided passwords in <wordlist> will be replacing ^PASS^
+		- F=incorrect is a string that appears in the server reply when the login fails
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
